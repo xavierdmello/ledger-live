@@ -1148,3 +1148,21 @@ export class PlatformAPIPermissionDenied extends Error {
     super(`Permission denied for method ${method}`);
   }
 }
+
+/** iOS over USB: the requested app must already be open on the device (only it is reachable). */
+export class UsbOpenAppRequired extends Error {
+  override name = "UsbOpenAppRequired";
+  appName: string;
+  constructor(appName: string) {
+    super("UsbOpenAppRequired");
+    this.appName = appName;
+  }
+}
+
+/** iOS over USB: the action needs the device dashboard, which isn't reachable over USB. */
+export class UsbDashboardUnavailable extends Error {
+  override name = "UsbDashboardUnavailable";
+  constructor(message?: string) {
+    super(message || "UsbDashboardUnavailable");
+  }
+}

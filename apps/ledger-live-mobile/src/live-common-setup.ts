@@ -6,6 +6,7 @@ import { bridgeEnvToNetworkState } from "@ledgerhq/live-common/network/setup";
 import { setWalletAPIVersion } from "@ledgerhq/live-common/wallet-api/version";
 import { WALLET_API_VERSION } from "@ledgerhq/live-common/wallet-api/constants";
 import { setDeviceMode } from "@ledgerhq/live-common/hw/actions/app";
+import { setUsbDashboardUnreachable } from "@ledgerhq/live-common/hw/usbDashboardAccess";
 import { appVersion } from "LLM/utils/appVersion";
 import { Platform } from "react-native";
 import { setSecp256k1Instance } from "@ledgerhq/live-common/families/bitcoin/logic";
@@ -69,3 +70,6 @@ setSecp256k1Instance(require("./logic/secp256k1"));
 const BIG_NUMBER_DECIMAL_PLACES = 40;
 
 BigNumber.set({ DECIMAL_PLACES: BIG_NUMBER_DECIMAL_PLACES });
+
+// iOS reaches USB Ledgers as smart-card (CCID) readers, where only the open app is reachable.
+if (Platform.OS === "ios") setUsbDashboardUnreachable(true);

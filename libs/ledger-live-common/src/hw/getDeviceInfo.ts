@@ -1,6 +1,7 @@
 /* eslint-disable no-bitwise */
 import { StatusCodes } from "@ledgerhq/hw-transport/errors";
-import { DeviceOnDashboardExpected, DeviceNotOnboarded } from "../errors";
+import { DeviceOnDashboardExpected, DeviceNotOnboarded, UsbDashboardUnavailable } from "../errors";
+import { isUsbSessionWithoutDashboard } from "./usbDashboardAccess";
 import { LocalTracer, log } from "@ledgerhq/logs";
 import Transport from "@ledgerhq/hw-transport";
 import { getVersion } from "../device/use-cases/getVersionUseCase";
@@ -19,6 +20,10 @@ export default async function (transport: Transport): Promise<DeviceInfo> {
     function: "getDeviceInfo",
   });
   tracer.trace("Starting get device info");
+
+  if (isUsbSessionWithoutDashboard(transport)) {
+    throw new UsbDashboardUnavailable();
+  }
 
   const probablyOnDashboard = await getAppAndVersion(transport)
     .then(({ name }) => isDashboardName(name))

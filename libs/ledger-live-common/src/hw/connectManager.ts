@@ -19,6 +19,8 @@ import { ManagerRequest } from "./actions/manager";
 import { PrepareConnectManagerEventMapper } from "./connectManagerEventMapper";
 import { extractOnboardingState, OnboardingStep } from "./extractOnboardingState";
 import { isDmkTransport } from "./dmkUtils";
+import { isUsbSessionWithoutDashboard } from "./usbDashboardAccess";
+import { UsbDashboardUnavailable } from "../errors";
 
 export type Input = {
   deviceId: string;
@@ -144,6 +146,9 @@ export default function connectManagerFactory() {
     )(transport => {
       if (!isDmkTransport(transport)) {
         return throwError(() => new DmkTransportRequired());
+      }
+      if (isUsbSessionWithoutDashboard(transport)) {
+        return throwError(() => new UsbDashboardUnavailable());
       }
       const { dmk, sessionId } = transport;
       const deviceAction = new PrepareConnectManagerDeviceAction({

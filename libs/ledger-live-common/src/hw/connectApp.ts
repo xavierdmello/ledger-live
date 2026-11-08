@@ -1,4 +1,5 @@
-import { Observable, throwError } from "rxjs";
+import { Observable, from, throwError } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import { type DerivationMode, DeviceInfo, FirmwareUpdateContext } from "@ledgerhq/types-live";
 import type { AppOp, SkippedAppOp } from "../apps/types";
 import { getCryptoCurrencyById } from "@domain/entity-currency-crypto";
@@ -7,13 +8,18 @@ import getAddress from "./getAddress";
 import { getMinVersion, getDeprecationConfig } from "../apps";
 import { buildApplicationDependency } from "../device/buildApplicationDependency";
 import { LockedDeviceEvent } from "./actions/types";
-import type { ApplicationDependency } from "@ledgerhq/device-management-kit";
+import {
+  type ApplicationDependency,
+  GetAppAndVersionCommand,
+  isSuccessCommandResult,
+} from "@ledgerhq/device-management-kit";
 import { ConnectAppDeviceAction } from "@ledgerhq/live-dmk-shared";
 import { ConnectAppEventMapper } from "./connectAppEventMapper";
 import { DeviceId } from "@domain/entity-client-identity";
 import { DeviceModelId as LLDeviceModelId } from "@ledgerhq/types-devices";
 import { isDmkTransport } from "./dmkUtils";
-import { DmkTransportRequired } from "../errors";
+import { DmkTransportRequired, UsbOpenAppRequired } from "../errors";
+import { isUsbSessionWithoutDashboard } from "./usbDashboardAccess";
 /**
  * Represents the deprecation status of a device.
  *
@@ -209,11 +215,39 @@ export default function connectAppFactory({
           deprecationConfig: getDeprecationConfig(appName, dependencies),
         },
       });
-      const observable = dmk.executeDeviceAction({
-        sessionId,
-        deviceAction,
-      });
-      return new ConnectAppEventMapper(dmk, sessionId, appName, observable).map();
+      const run = (action: ConnectAppDeviceAction) =>
+        new ConnectAppEventMapper(
+          dmk,
+          sessionId,
+          appName,
+          dmk.executeDeviceAction({ sessionId, deviceAction: action }),
+        ).map();
+
+      // iOS over USB: only the open app is reachable, so the dashboard steps (open app,
+      // check or install dependencies, firmware) can't run. Use the app if it's the one
+      // requested; otherwise ask the user to open it.
+      if (isUsbSessionWithoutDashboard(transport)) {
+        return from(dmk.sendCommand({ sessionId, command: new GetAppAndVersionCommand() })).pipe(
+          switchMap(result => {
+            const currentApp = isSuccessCommandResult(result) ? result.data.name : undefined;
+            if (currentApp !== appName) {
+              return throwError(() => new UsbOpenAppRequired(appName));
+            }
+            return run(
+              new ConnectAppDeviceAction({
+                input: {
+                  ...deviceAction.input,
+                  dependencies: [],
+                  requireLatestFirmware: false,
+                  allowMissingApplication: true,
+                },
+              }),
+            );
+          }),
+        );
+      }
+
+      return run(deviceAction);
     });
   };
 }

@@ -662,6 +662,14 @@
     "DeviceNameInvalid": {
       "title": "Please name the device without '{{invalidCharacters}}'."
     },
+    "UsbOpenAppRequired": {
+      "title": "Open {{appName}} on your Ledger",
+      "description": "Over USB on iPhone, Ledger Wallet can only reach the app that's open on your Ledger. Open {{appName}} on it, then try again."
+    },
+    "UsbDashboardUnavailable": {
+      "title": "Not available over USB on iPhone",
+      "description": "This needs your Ledger's dashboard, which an iPhone can't reach over USB. Use Ledger Wallet on a computer or Android phone for app installs, Genuine Check and firmware updates."
+    },
     "DeviceOnDashboardExpected": {
       "title": "Device not on Dashboard",
       "description": "Please return to the Dashboard on your device."
