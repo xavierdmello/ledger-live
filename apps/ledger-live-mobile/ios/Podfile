@@ -75,6 +75,12 @@ target 'ledgerlivemobile' do
         config.build_settings["LD"] = "clang"
         config.build_settings["CXX"] = "clang++"
         config.build_settings["LDPLUSPLUS"] = "clang++"
+
+        # Xcode 27: DatadogSDKReactNative-Swift.h uses RCTPromise*Block without importing
+        # React, which breaks the pod's .mm files. Pre-include the bridge header there.
+        if target.name == 'DatadogSDKReactNative'
+          config.build_settings['OTHER_CPLUSPLUSFLAGS'] = '$(inherited) -include React/RCTBridgeModule.h'
+        end
       end
     end
 
