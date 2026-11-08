@@ -36,7 +36,10 @@ const buildDiscoverySources = (
     ? [new MockServerDeviceDiscoverySource(dmk)]
     : [
         new RnBleDeviceDiscoverySource(dmk),
-        ...(platformOS === "android" ? [new RnHidDeviceDiscoverySource(dmk)] : []),
+        // iOS: USB-C Ledgers whose open app exposes a smart-card (CCID) interface.
+        ...(platformOS === "android" || platformOS === "ios"
+          ? [new RnHidDeviceDiscoverySource(dmk)]
+          : []),
         new SpeculosDeviceDiscoverySource(dmk),
       ];
 
