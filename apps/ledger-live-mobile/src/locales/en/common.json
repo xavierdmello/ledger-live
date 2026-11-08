@@ -6537,6 +6537,7 @@
       "showAllCTA": "Show all {{count}} Ledgers",
       "showLessCTA": "Show less",
       "otgBanner": "To use Ledger Nano S or Ledger Nano S Plus, connect with the USB cable.",
+      "usbBannerIos": "To use Ledger Nano S Plus, connect it with a USB-C cable and open the Ethereum app on it.",
       "connectExistingLedger": "Connect an existing Ledger",
       "connectExistingLedgerDescription": "If your Ledger is already set up",
       "setUpNewLedger": "Set up a new Ledger",

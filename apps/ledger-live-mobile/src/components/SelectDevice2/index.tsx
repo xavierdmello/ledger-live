@@ -693,7 +693,7 @@ export default function SelectDevice({
                       </Flex>
                     </Touchable>
                   )}
-                  {Platform.OS === "android" &&
+                  {(Platform.OS === "android" || Platform.OS === "ios") &&
                     hidDevices.length === 0 &&
                     ProxyDevice === undefined && (
                       <Text
@@ -705,7 +705,11 @@ export default function SelectDevice({
                         mt={3}
                         mb={3}
                       >
-                        {t("manager.selectDevice.otgBanner")}
+                        {t(
+                          Platform.OS === "ios"
+                            ? "manager.selectDevice.usbBannerIos"
+                            : "manager.selectDevice.otgBanner",
+                        )}
                       </Text>
                     )}
                 </Flex>
