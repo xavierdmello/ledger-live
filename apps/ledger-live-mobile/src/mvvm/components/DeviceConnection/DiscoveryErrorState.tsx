@@ -26,7 +26,10 @@ type DiscoveryErrorViewState = {
 
 type DiscoveryErrorType = DiscoveryError["type"];
 
-type DiscoveryErrorViewStates = Record<DiscoveryErrorType, DiscoveryErrorViewState>;
+type DiscoveryErrorViewStates = Record<
+  DiscoveryErrorType,
+  DiscoveryErrorViewState
+>;
 
 const discoveryErrorTranslationBaseKey =
   "deviceIntentExecutor.connectDevice.states.discoveryError.errors";
@@ -80,12 +83,9 @@ export function DiscoveryErrorState({
       primaryCta: retryCta(
         `${discoveryErrorTranslationBaseKey}.bluetoothPermissionUnauthorizedManualSettings.cta.platform.${platform}.retry`,
       ),
-      secondaryCta:
-        platform === "android"
-          ? ignoreCta(
-              `${discoveryErrorTranslationBaseKey}.bluetoothPermissionUnauthorizedManualSettings.cta.platform.android.ignore`,
-            )
-          : undefined,
+      secondaryCta: ignoreCta(
+        `${discoveryErrorTranslationBaseKey}.bluetoothPermissionUnauthorizedManualSettings.cta.platform.android.ignore`,
+      ),
     },
     [DiscoveryErrorTypes.BluetoothDisabledPromptable]: {
       preset: "info",
@@ -105,23 +105,17 @@ export function DiscoveryErrorState({
       primaryCta: retryCta(
         `${discoveryErrorTranslationBaseKey}.bluetoothDisabledManualAction.cta.platform.${platform}.retry`,
       ),
-      secondaryCta:
-        platform === "android"
-          ? ignoreCta(
-              `${discoveryErrorTranslationBaseKey}.bluetoothDisabledManualAction.cta.platform.android.ignore`,
-            )
-          : undefined,
+      secondaryCta: ignoreCta(
+        `${discoveryErrorTranslationBaseKey}.bluetoothDisabledManualAction.cta.platform.android.ignore`,
+      ),
     },
     [DiscoveryErrorTypes.BluetoothUnsupported]: {
       preset: "error",
       title: `${discoveryErrorTranslationBaseKey}.bluetoothUnsupported.title`,
       description: `${discoveryErrorTranslationBaseKey}.bluetoothUnsupported.description.platform.${platform}`,
-      primaryCta:
-        platform === "android"
-          ? ignoreCta(
-              `${discoveryErrorTranslationBaseKey}.bluetoothUnsupported.cta.platform.android.ignore`,
-            )
-          : undefined,
+      primaryCta: ignoreCta(
+        `${discoveryErrorTranslationBaseKey}.bluetoothUnsupported.cta.platform.android.ignore`,
+      ),
     },
     [DiscoveryErrorTypes.LocationPermissionDeniedPromptable]: {
       preset: "info",
@@ -182,7 +176,9 @@ export function DiscoveryErrorState({
       preset: "error",
       title: `${discoveryErrorTranslationBaseKey}.unknown.title`,
       description: `${discoveryErrorTranslationBaseKey}.unknown.description`,
-      primaryCta: retryCta(`${discoveryErrorTranslationBaseKey}.unknown.cta.retry`),
+      primaryCta: retryCta(
+        `${discoveryErrorTranslationBaseKey}.unknown.cta.retry`,
+      ),
     },
     [DiscoveryErrorTypes.BluetoothStateUnknownCheckOnly]: {
       preset: "error",
@@ -191,12 +187,9 @@ export function DiscoveryErrorState({
       primaryCta: retryCta(
         `${discoveryErrorTranslationBaseKey}.bluetoothStateUnknownCheckOnly.cta.retry`,
       ),
-      secondaryCta:
-        platform === "android"
-          ? ignoreCta(
-              `${discoveryErrorTranslationBaseKey}.bluetoothStateUnknownCheckOnly.cta.ignore`,
-            )
-          : undefined,
+      secondaryCta: ignoreCta(
+        `${discoveryErrorTranslationBaseKey}.bluetoothStateUnknownCheckOnly.cta.ignore`,
+      ),
     },
   };
 
@@ -207,7 +200,9 @@ export function DiscoveryErrorState({
       preset={errorState.preset}
       size="hug"
       title={t(errorState.title)}
-      description={errorState.description ? t(errorState.description) : undefined}
+      description={
+        errorState.description ? t(errorState.description) : undefined
+      }
       primaryCta={errorState.primaryCta}
       secondaryCta={errorState.secondaryCta}
     />
