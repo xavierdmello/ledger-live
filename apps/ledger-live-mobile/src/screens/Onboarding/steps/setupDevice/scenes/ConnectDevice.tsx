@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { Platform } from "react-native";
 import { useDispatch } from "~/context/hooks";
 import { trace } from "@ledgerhq/logs";
 import { Flex } from "@ledgerhq/native-ui";
@@ -42,9 +43,17 @@ const ConnectDevice = ({ onSuccess, keepReadOnlyMode = false }: Props) => {
       dispatch(setLastConnectedDevice(device));
       leaveReadOnlyMode();
       dispatch(setHasOrderedNano(false));
+      // iOS USB goes through the smart-card (CCID) interface of the app open on the device;
+      // the dashboard has none, so the manager action (device info, app list) can't run.
+      // The device answered over USB with an app open, which is all onboarding needs here.
+      if (isUsbDevice && Platform.OS === "ios") {
+        dispatch(setHasInstalledAnyApp(true));
+        onSuccess(device);
+        return;
+      }
       setDevice(device);
     },
-    [dispatch, leaveReadOnlyMode],
+    [dispatch, leaveReadOnlyMode, onSuccess],
   );
 
   const onResult = useCallback(
