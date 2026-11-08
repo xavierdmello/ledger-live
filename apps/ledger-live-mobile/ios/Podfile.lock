@@ -120,6 +120,34 @@ PODS:
     - OpenTelemetry-Swift-Api (~> 2.5.0)
   - DatadogWebViewTracking (3.16.0):
     - DatadogInternal (= 3.16.0)
+  - device-transport-kit-react-native-hid (1.0.4):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
+    - Yoga
   - DoubleConversion (1.1.6)
   - EXApplication (7.0.8):
     - ExpoModulesCore
@@ -3645,6 +3673,7 @@ DEPENDENCIES:
   - "braze-react-native-sdk (from `../../../node_modules/.pnpm/@braze+react-native-sdk@18.0.0/node_modules/@braze/react-native-sdk`)"
   - "callstack-repack (from `../../../node_modules/.pnpm/@callstack+repack@5.4.2_patch_hash=5bcd139af7a7_7f66561bc200f87ba40e69b68ef66f84/node_modules/@callstack/repack`)"
   - "DatadogSDKReactNative (from `../../../node_modules/.pnpm/@datadog+mobile-react-native@3.7.0_react-native_7a7a1f27b9ac3f989423fe198c72f787/node_modules/@datadog/mobile-react-native`)"
+  - "device-transport-kit-react-native-hid (from `../../../node_modules/.pnpm/@ledgerhq+device-transport-kit-react-native-hid_396770cd063deae14c515854d1efef9f/node_modules/@ledgerhq/device-transport-kit-react-native-hid`)"
   - "DoubleConversion (from `../../../node_modules/.pnpm/react-native@0.81.6_patch_hash=fbb22f6ab81c7336_9f9367c5ec0023717aa72ae7066b0e6b/node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)"
   - "EXApplication (from `../../../node_modules/.pnpm/expo-application@7.0.8_expo@54.0.33_@babel+core_abeb84298ea9ca84ee1055406bccf067/node_modules/expo-application/ios`)"
   - "EXConstants (from `../../../node_modules/.pnpm/expo-constants@18.0.13_cea240c554249903ec67be349a32770e/node_modules/expo-constants/ios`)"
@@ -3825,6 +3854,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.pnpm/@callstack+repack@5.4.2_patch_hash=5bcd139af7a7_7f66561bc200f87ba40e69b68ef66f84/node_modules/@callstack/repack"
   DatadogSDKReactNative:
     :path: "../../../node_modules/.pnpm/@datadog+mobile-react-native@3.7.0_react-native_7a7a1f27b9ac3f989423fe198c72f787/node_modules/@datadog/mobile-react-native"
+  device-transport-kit-react-native-hid:
+    :path: "../../../node_modules/.pnpm/@ledgerhq+device-transport-kit-react-native-hid_396770cd063deae14c515854d1efef9f/node_modules/@ledgerhq/device-transport-kit-react-native-hid"
   DoubleConversion:
     :podspec: "../../../node_modules/.pnpm/react-native@0.81.6_patch_hash=fbb22f6ab81c7336_9f9367c5ec0023717aa72ae7066b0e6b/node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   EXApplication:
@@ -4098,6 +4129,7 @@ SPEC CHECKSUMS:
   DatadogSDKReactNative: 44a9c6086ae7f8dfaea55d98a3b63721e7c76998
   DatadogTrace: 5ef84e254e2e1d337bc52e0cdf16396ca102aeb1
   DatadogWebViewTracking: e0470157f55a83680a549d79ba2985e0d17465db
+  device-transport-kit-react-native-hid: c284c223a25d072db17789dc207a96c835e0969d
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   EXApplication: 1e98d4b1dccdf30627f92917f4b2c5a53c330e5f
   EXConstants: fce59a631a06c4151602843667f7cfe35f81e271

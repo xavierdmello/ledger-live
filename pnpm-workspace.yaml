@@ -364,6 +364,7 @@ patchedDependencies:
   "bigint-buffer@1.1.5": "patches/bigint-buffer@1.1.5.patch"
   "usb@2.17.0": "patches/usb@2.17.0.patch"
   "react-native-worklets@0.8.1": "patches/react-native-worklets@0.8.1.patch"
+  '@ledgerhq/device-transport-kit-react-native-hid@1.0.4': patches/@ledgerhq__device-transport-kit-react-native-hid@1.0.4.patch
 
 allowBuilds:
   "@apollo/protobufjs": true

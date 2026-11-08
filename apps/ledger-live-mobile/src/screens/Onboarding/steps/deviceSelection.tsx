@@ -58,7 +58,9 @@ export const devices = {
   },
 };
 
-const NOT_SUPPORTED_DEVICES_IOS = [DeviceModelId.nanoS, DeviceModelId.nanoSP];
+// Nano S Plus connects on iOS over USB-C as a smart-card (CCID) reader, through
+// @ledgerhq/device-transport-kit-react-native-hid. Nano S is left out: untested over CCID.
+const NOT_SUPPORTED_DEVICES_IOS = [DeviceModelId.nanoS];
 
 function OnboardingStepDeviceSelection() {
   const navigation = useNavigation<NavigationProp>();
