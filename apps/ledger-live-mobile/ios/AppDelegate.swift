@@ -257,3 +257,53 @@ class AppDelegate: RCTAppDelegate, UNUserNotificationCenterDelegate {
   }
 }
 
+
+// MARK: - Scene life cycle
+// Apps built with the iOS 27 SDK must adopt UIScene or they fail to launch. RCTAppDelegate still
+// creates its window in application(_:didFinishLaunchingWithOptions:); this attaches that window to
+// the scene and forwards the scene events the AppDelegate handled before.
+
+@objc(LLSceneDelegate)
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+  private var appDelegate: AppDelegate? { UIApplication.shared.delegate as? AppDelegate }
+
+  func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
+    guard let windowScene = scene as? UIWindowScene, let window = appDelegate?.window else { return }
+    window.windowScene = windowScene
+    window.frame = windowScene.coordinateSpace.bounds
+    window.makeKeyAndVisible()
+
+    if let context = connectionOptions.urlContexts.first {
+      RCTLinkingManager.application(UIApplication.shared, open: context.url, options: [:])
+    }
+    if let activity = connectionOptions.userActivities.first {
+      _ = RCTLinkingManager.application(UIApplication.shared, continue: activity, restorationHandler: { _ in })
+    }
+  }
+
+  func sceneDidBecomeActive(_ scene: UIScene) {
+    appDelegate?.applicationDidBecomeActive(UIApplication.shared)
+  }
+
+  func sceneWillEnterForeground(_ scene: UIScene) {
+    appDelegate?.applicationWillEnterForeground(UIApplication.shared)
+  }
+
+  func sceneDidEnterBackground(_ scene: UIScene) {
+    appDelegate?.applicationDidEnterBackground(UIApplication.shared)
+  }
+
+  func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    for context in URLContexts {
+      RCTLinkingManager.application(UIApplication.shared, open: context.url, options: [:])
+    }
+  }
+
+  func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+    _ = RCTLinkingManager.application(UIApplication.shared, continue: userActivity, restorationHandler: { _ in })
+  }
+}
